@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vitrine</title>
+<meta name="description" content="Projection show control for permanent museum installations: edge blending, warp and mask mapping, cues and trigger rules in one native app.">
+<link rel="icon" href="img/favicon.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top">
+  <a class="brand" href="#top" aria-label="Vitrine, back to top">
+    <img class="mark" src="img/logo-mark.png" width="240" height="227" alt="">
+    <span>Vitrine</span>
+  </a>
+  <nav class="nav mono" aria-label="Sections">
+    <a href="#blend">Blend</a><a href="#map">Map</a><a href="#trigger">Trigger</a><a href="#endure">Endure</a><a href="#specs">Specs</a>
+  </nav>
+  <a class="docs-link mono" href="help/index.html">Docs</a>
+  <span class="status mono">macOS · Windows · Linux</span>
+</header>
+
+<main id="top">
+
+<!-- 00 HERO: the signature interaction, a draggable warp grid -->
+<section class="hero" aria-label="Introduction">
+  <div class="stage" id="stage">
+    <canvas id="warpGL" aria-hidden="true"></canvas>
+    <svg id="warpUI" role="group" aria-label="Warp grid, 5 by 3 points. Focus a point and use the arrow keys to move it."></svg>
+    <h1 class="sr-only">Vitrine</h1>
+    <div class="readout mono" id="readout" aria-live="polite">Warp grid 5 × 3 · Catmull-Rom</div>
+  </div>
+  <div class="hero-foot">
+    <p class="lede" data-split>Vitrine runs the projectors in a museum gallery. It joins several projectors into one picture, fits that picture to walls and objects, plays video, and reacts to buttons and sensors. It keeps running when nobody from the AV team is in the building.</p>
+    <div class="hint mono">
+      <span>Drag a point. Arrow keys nudge the selected point, Shift for 10×.</span>
+      <button type="button" id="warpReset" class="btn-line">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13 8a5 5 0 1 1-1.6-3.7"/><path d="M13 2.5V5h-2.5"/></svg>
+        Reset to flat
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- 01 BLEND: pinned, scroll drives alignment, overlap, ramp, lift -->
+<section class="blend" id="blend" data-scene="blend" aria-label="Edge blending">
+  <div class="pin">
+    <p class="kicker mono"><span>01</span> Edge blending</p>
+    <h2 class="giant giant-out" aria-hidden="true">Edge blend</h2>
+    <div class="panel" id="blendPanel">
+      <h2 class="giant giant-in">Edge blend</h2>
+      <div class="raster" id="raster">
+        <div class="proj a"><div class="floor"></div><div class="content"><div class="scene-art"><span>One image</span></div></div></div>
+        <div class="proj b"><div class="floor"></div><div class="content"><div class="scene-art"><span>One image</span></div></div></div>
+        <div class="lift la"></div><div class="lift lb"></div>
+        <div class="band mono"><span>Overlap · 2× light</span></div>
+      </div>
+      <ol class="steps mono">
+        <li data-step="0"><b>01 Align</b><span>Fit each projector to the wall</span></li>
+        <li data-step="1"><b>02 Overlap</b><span>Where two meet, the wall gets double light</span></li>
+        <li data-step="2"><b>03 Ramp</b><span>width 240 · curve 2.00 · gamma 2.20</span></li>
+        <li data-step="3"><b>04 Lift</b><span>black lift 0.030 · feather 16 px</span></li>
+      </ol>
+      <svg class="ramp" viewBox="0 0 160 90" aria-hidden="true">
+        <path class="axis" d="M8 82 H152 M8 82 V8"/>
+        <path class="ra" d="M8 10 C 60 10, 100 82, 152 82" pathLength="1"/>
+        <path class="rb" d="M8 82 C 60 82, 100 10, 152 10" pathLength="1"/>
+      </svg>
+    </div>
+  </div>
+  <div class="blend-copy">
+    <p data-split>When two projectors overlap, the strip where they meet is twice as bright. Vitrine fades the edge of each picture across that strip so the two add up to one even image. Width, curve and gamma are set for each side. Projectors also never show true black, so the overlap looks lighter in dark scenes. Vitrine raises the black level outside the overlap to match. Auto blend takes the widths from the overlap itself.</p>
+  </div>
+</section>
+
+<!-- 02 MAP: photo band, canvas crop corner-pinned by scroll, panel crop, feature cards -->
+<section class="map" id="map" data-scene="map" aria-label="Projection mapping">
+  <div class="warp-head"><h2 class="giant warp-word" aria-hidden="true">Warp</h2></div>
+  <div class="map-grid">
+    <p class="kicker mono"><span>02</span> Warp, mask, map</p>
+    <div class="map-copy">
+      <h3 class="h3" data-split>Pin four corners, or drag a grid of up to 33 × 33 points.</h3>
+      <p>Every projector has its own warp, so its picture can be bent to fit a wall that is not flat or not square to the lens. Areas the light should not reach can be masked out, and brightness and colour can be adjusted for each projector so that older lamps still match newer ones.</p>
+    </div>
+    <figure class="warp-fig" data-wipe>
+      <img src="img/warp-map.jpg" width="1881" height="836" alt="Projection mapping diagram: a warp grid pinned to a wall, a zoomed corner point, a second projector aligned to a room, and a plan view of two projectors overlapping." loading="lazy">
+    </figure>
+    <ul class="cards">
+      <li class="card c-grid">
+        <svg viewBox="0 0 120 80" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 14 C 40 4, 80 24, 112 10 M8 40 C 40 34, 80 46, 112 38 M8 66 C 40 70, 80 58, 112 70"/><path d="M8 14 C 14 40, 4 52, 8 66 M40 8 C 44 36, 36 52, 40 68 M80 14 C 76 38, 86 52, 80 66 M112 10 C 108 40, 116 54, 112 70"/></g><g fill="var(--paper)" stroke="var(--accent)" stroke-width="1.4"><rect x="35" y="3" width="8" height="8"/><rect x="76" y="19" width="8" height="8"/><rect x="36" y="62" width="8" height="8"/></g></svg>
+        <h4>Warp grid</h4>
+        <p>Each projector gets a grid from 2 × 2 up to 33 × 33 points. Drag points with the mouse, or nudge the selected one with the arrow keys (1 px, or 10 px with Shift). Changing the grid size keeps the shape already made.</p>
+      </li>
+      <li class="card c-mask">
+        <svg viewBox="0 0 120 80" aria-hidden="true"><defs><filter id="ft"><feGaussianBlur stdDeviation="2.2"/></filter></defs><rect x="8" y="8" width="104" height="64" fill="var(--accent-bg)"/><path d="M40 70 V36 Q40 20 60 20 Q80 20 80 36 V70 Z" fill="var(--ink)" filter="url(#ft)"/><path d="M40 70 V36 Q40 20 60 20 Q80 20 80 36 V70" fill="none" stroke="var(--accent)" stroke-width="1.2" stroke-dasharray="3 3"/></svg>
+        <h4>Masks</h4>
+        <p>Draw a polygon around anything the projector should not light, such as a doorway or a sculpture. The edge can be softened, and a mask can be inverted to show only what is inside it.</p>
+      </li>
+      <li class="card c-quad">
+        <svg viewBox="0 0 120 80" aria-hidden="true"><rect x="6" y="6" width="108" height="68" fill="none" stroke="var(--line)" stroke-width="1.2"/><path d="M26 18 L96 10 L88 62 L34 54 Z" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1.4"/><g fill="var(--paper)" stroke="var(--accent)" stroke-width="1.4"><rect x="22" y="14" width="8" height="8"/><rect x="92" y="6" width="8" height="8"/><rect x="84" y="58" width="8" height="8"/><rect x="30" y="50" width="8" height="8"/></g></svg>
+        <h4>Layers on any shape</h4>
+        <p>Place a video on any four-sided shape on the canvas and it is drawn with correct perspective. Use it for a picture frame, a tilted panel or a window.</p>
+      </li>
+      <li class="card c-mesh">
+        <svg viewBox="0 0 120 80" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M30 30 L70 22 L96 34 L56 44 Z"/><path d="M30 30 V58 L56 72 V44 M96 34 V60 L56 72"/><path d="M70 22 V50 L96 60" stroke-dasharray="3 3"/></g><g fill="var(--accent)"><circle cx="30" cy="30" r="2.6"/><circle cx="96" cy="34" r="2.6"/><circle cx="56" cy="72" r="2.6"/><circle cx="70" cy="22" r="2.6"/><circle cx="56" cy="44" r="2.6"/><circle cx="96" cy="60" r="2.6"/></g></svg>
+        <h4>3D models</h4>
+        <p>Load an OBJ model of the room or object. Match six or more points on the model to points on the wall, and Vitrine works out where the projector is and wraps the video onto the surface.</p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- 03 TRIGGER: the rule grammar set as type -->
+<section class="trigger" id="trigger" aria-label="Trigger rules">
+  <p class="kicker mono"><span>03</span> Trigger rules</p>
+  <div class="rule" aria-label="Rule example">
+    <div class="rl r-when"><span class="kw">when</span><span class="slot mono" data-cycle="when"></span></div>
+    <div class="rl r-if"><span class="kw">if</span><span class="slot mono" data-cycle="if"></span></div>
+    <div class="rl r-then"><span class="kw">then</span><span class="slot mono" data-cycle="then"></span></div>
+  </div>
+  <div class="trigger-body">
+    <div class="tcopy">
+      <p class="tlead" data-split>A rule has three parts.</p>
+      <ol class="tparts">
+        <li><b class="mono">1</b><h3>Event</h3><p>An event arrives, such as a button press or a network message.</p></li>
+        <li><b class="mono">2</b><h3>Conditions</h3><p>Conditions check things like a variable, the current cue or the time of day.</p></li>
+        <li><b class="mono">3</b><h3>Actions</h3><p>If they pass, actions run, such as starting a cue or switching projectors on.</p></li>
+      </ol>
+      <dl class="tnotes">
+        <div><dt class="mono">Trace</dt><dd>The Triggers page records each step which shows why a rule did or did not run.</dd></div>
+        <div><dt class="mono">Debounce</dt><dd>Debounce ignores repeated presses, and variables can survive a restart, for example a visitor count.</dd></div>
+        <div><dt class="mono">Scripts</dt><dd>For anything more complicated a short script can be written, which runs in a sandbox.</dd></div>
+      </dl>
+    </div>
+    <figure class="shot tilt" data-scene="tilt">
+      <img src="img/triggers.png" width="1600" height="991" alt="The Triggers page: a list of rules with events, conditions, actions and the action trace." loading="lazy" data-wipe>
+    </figure>
+  </div>
+  <div class="ticker" data-scene="ticker" aria-hidden="true">
+    <div class="ticker-row mono">OSC 7000 <i></i> UDP 7001 <i></i> TCP 7002 <i></i> HTTP 8080 /remote /api /ws /health <i></i> Art-Net DMX <i></i> PJLink class 1 <i></i> Serial <i></i> MIDI <i></i> Schedules <i></i> QuickJS 100 ms · 16 MB <i></i> Cluster 7010 <i></i></div>
+  </div>
+</section>
+
+<!-- 04 ENDURE: failure and recovery -->
+<section class="endure" id="endure" aria-label="Reliability">
+  <div class="endure-grid">
+    <div class="endure-side">
+      <p class="kicker mono"><span>04</span> / Unattended</p>
+      <h2 class="giant"><span class="ln"><span>Doors open</span></span><span class="ln"><em>at ten.</em></span></h2>
+      <p class="endure-lede" data-split>The show starts on its own, whether or not anyone from AV is in. Vitrine launches when the computer logs in, and after a crash or a power cut it picks up at the same cue.</p>
+      <figure class="endure-fig" data-wipe>
+        <img src="img/photo-museum.jpg" width="1339" height="793" alt="A dark museum hall with two large projected walls and ceiling-mounted projectors." loading="lazy">
+        <svg class="fig-mark" viewBox="0 0 200 200" aria-hidden="true"><path d="M10 90H70A120 120 0 0 1 190 210"/><path d="M100 20v70M65 55h70"/></svg>
+        <i class="fig-inset" aria-hidden="true"></i>
+        <figcaption class="mono">Two projected walls in a museum hall, run by one machine.</figcaption>
+      </figure>
+    </div>
+    <div class="endure-main">
+      <p class="caps mono">What happens when</p>
+      <ol class="ledger">
+    <li><span class="mono n">A</span><h3>Graphics card reset, or display asleep</h3><p>Vitrine rebuilds its graphics objects and carries on. The show clock keeps running the whole time.</p><svg class="dg" viewBox="0 0 120 80" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1"><path d="M20 22l50-10 20 12-50 10z" fill="#9FB3C7" fill-opacity=".35"/><path d="M30 34l50-10 20 12-50 10z" fill="#9FB3C7" fill-opacity=".3"/><path d="M40 46l50-10 20 12-50 10z" fill="#9FB3C7" fill-opacity=".25"/><circle cx="102" cy="58" r="7"/><path d="M102 48v20M92 58h20"/></svg><b class="t">&lt;2<small>s</small></b></li>
+    <li><span class="mono n">B</span><h3>Crash, or a freeze of 10 seconds</h3><p>A supervisor process restarts the app. The show resumes at the same cue and position, and looping video seeks to where it should be.</p><svg class="dg" viewBox="0 0 120 80" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1"><path d="M14 14v54M30 14v54M46 14v54"/><path d="M62 14h16v54H62z" fill="#44566A"/><path d="M84 14h16v54H84z" fill="#9FB3C7" fill-opacity=".4"/></svg><b class="t">&lt;10<small>s</small></b></li>
+    <li><span class="mono n">C</span><h3>Power cut</h3><p>The computer logs in and starts Vitrine by itself. The show position is saved every second, so it resumes from there.</p><svg class="dg" viewBox="0 0 120 80" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1"><circle cx="60" cy="42" r="28"/><path d="M60 8v30" stroke-width="1.5"/></svg><b class="t">&lt;60<small>s</small></b></li>
+    <li><span class="mono n">D</span><h3>Bad show file</h3><p>If the app restarts three times in ten minutes, it starts in safe mode: screens black, network commands ignored, and the reason written to the log.</p><svg class="dg" viewBox="0 0 120 80" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1"><rect x="12" y="12" width="80" height="52" stroke-dasharray="3 3"/><path d="M12 12l80 52M92 12L12 64"/><circle cx="96" cy="62" r="10" fill="#44566A" stroke="none"/><path d="M96 56v7" stroke="#fff" stroke-width="2"/><circle cx="96" cy="67" r="1" fill="#fff" stroke="none"/></svg><b class="t">3<small>/10 min</small></b></li>
+    <li><span class="mono n">E</span><h3>Display unplugged</h3><p>Output windows stay where they are. A monitor change is applied only after two checks agree, so a brief flicker does not rearrange the show.</p><svg class="dg" viewBox="0 0 120 80" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1"><path d="M10 30h46v34H10z" fill="#9FB3C7" fill-opacity=".35"/><path d="M40 14h40v40H40z" stroke-dasharray="3 3"/><path d="M62 26h44v50H62z" stroke="#44566A"/><path d="M62 50h44"/></svg><b class="t">2<small>checks</small></b></li>
+    <li><span class="mono n">F</span><h3>Projector fault</h3><p>Vitrine asks each projector for its status over PJLink every 30 seconds. A fault sends a webhook or email after 15 seconds, and repeats every 10 minutes until it clears.</p><svg class="dg" viewBox="0 0 120 80" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1"><path d="M60 12a30 30 0 1 0 28 40" stroke="#44566A"/><path d="M60 12a30 30 0 0 1 28 18" stroke-dasharray="2 3" stroke-opacity=".6"/><path d="M82 56l8-6-2 10z" fill="#44566A"/></svg><b class="t">30<small>s</small></b></li>
+  </ol>
+      <p class="foot mono">Recovery times are targets from the product spec. For a power cut, the time is counted from login. Saves are written in one step so a cut cannot leave a half-written file, and the last 30 backups are kept.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 05 GALLERY: horizontal, pinned -->
+<section class="gallery" id="gallery" data-scene="gallery" aria-label="Application pages">
+  <div class="pin">
+    <div class="gal-head">
+      <p class="kicker mono"><span>05</span> The app</p>
+      <h2 class="h2">Nine pages. <br><em class="ital">No hidden menus.</em></h2>
+      <p class="count mono"><span id="galCount">01</span> / <span id="galTotal">09</span></p>
+    </div>
+    <div class="monitor">
+      <div class="bezel">
+      <div class="strip" id="strip">
+      <figure><img src="img/show.png" width="1600" height="991" alt="The Show page with the cue list and a live preview of each output" loading="lazy"><figcaption class="mono"><b>Show</b> Start cues, watch each output live and check the health card.</figcaption></figure>
+      <figure><img src="img/outputs.png" width="1600" height="991" alt="The Outputs page binding a window to each display" loading="lazy"><figcaption class="mono"><b>Outputs</b> Assign a window to each display and choose which part of the canvas it shows.</figcaption></figure>
+      <figure><img src="img/content.png" width="1600" height="991" alt="The Content page with the media library" loading="lazy"><figcaption class="mono"><b>Content</b> The media library: video, stills, live input and NDI® sources.</figcaption></figure>
+      <figure><img src="img/cues.png" width="1600" height="991" alt="The Cues page editing layers and fades" loading="lazy"><figcaption class="mono"><b>Cues</b> Build a cue from layers, then set fades and what plays next.</figcaption></figure>
+      <figure><img src="img/mapping.png" width="1600" height="991" alt="The Mapping page with a warp grid and the blend settings" loading="lazy"><figcaption class="mono"><b>Mapping</b> Warp, blend and mask each projector.</figcaption></figure>
+      <figure><img src="img/triggers.png" width="1600" height="991" alt="The Triggers page with a list of rules and the action trace" loading="lazy"><figcaption class="mono"><b>Triggers</b> Rules that start cues from buttons, schedules and network messages.</figcaption></figure>
+      <figure><img src="img/devices.png" width="1600" height="991" alt="The Devices page with projectors and network inputs" loading="lazy"><figcaption class="mono"><b>Devices</b> Projectors over PJLink, serial and MIDI ports, and audio outputs.</figcaption></figure>
+      <figure><img src="img/settings.png" width="1600" height="991" alt="The Settings page" loading="lazy"><figcaption class="mono"><b>Settings</b> Auto start, edit PIN and the daily restart.</figcaption></figure>
+      <figure><img src="img/log.png" width="1600" height="991" alt="The Log page with rotating log entries" loading="lazy"><figcaption class="mono"><b>Log</b> Events and faults from the last 14 days.</figcaption></figure>
+    </div>
+    </div>
+      <div class="stand" aria-hidden="true"><i class="neck"></i><i class="foot"></i></div>
+    </div>
+    <nav class="dock" id="dock" aria-label="App pages"></nav>
+    <p class="gal-cap" id="galCap" aria-live="polite"></p>
+  </div>
+</section>
+
+<!-- 06 SPECS -->
+<section class="specs" id="specs" aria-label="Specification">
+  <h2 class="giant spec-word">Spec<span class="ital">ification</span></h2>
+  <div class="sheet">
+    <div class="row"><h3 class="mono">Platform</h3><p>macOS on Metal, Windows 11 on Direct3D 12, Linux on Vulkan. One native app per system, written in Rust, with no browser inside. The same show file opens on all three.</p></div>
+    <div class="row"><h3 class="mono">Outputs</h3><p>2 to 8 projectors per machine, several slices per output for GPU spanning. Optional 10-bit surfaces, mipmapped canvas sampling.</p></div>
+    <div class="row"><h3 class="mono">Video</h3><p>H.264, HEVC, VP9, AV1, ProRes 422 and 4444 with alpha. 10-bit kept end to end. PQ and HLG tone mapped for SDR projectors. Image sequences. Hardware decode with software fallback, zero-copy on macOS.</p></div>
+    <div class="row"><h3 class="mono">Live input</h3><p>Cameras and capture cards, NDI® sources, SRT, RTSP and UDP streams. Reconnects every 2 s.</p></div>
+    <div class="row"><h3 class="mono">Audio</h3><p>Per layer to a chosen device, opened at the clip's native rate. Surround passes through when the device has the channels.</p></div>
+    <div class="row"><h3 class="mono">Control</h3><p>OSC, UDP, TCP, HTTP with WebSocket, Art-Net, PJLink, serial, MIDI, schedules. A tablet remote page for museum staff at <code>/remote</code>.</p></div>
+    <div class="row"><h3 class="mono">Cluster</h3><p>One machine leads and the others follow. The leader sends the show clock 30 times a second over UDP and shares the show file over TCP. There is no hardware genlock.</p></div>
+    <div class="row"><h3 class="mono">Privacy</h3><p>No telemetry, no outbound calls except alerts that have been set up. Optional API token, edit PIN, works fully offline.</p></div>
+    <div class="row"><h3 class="mono">Licence</h3><p>Licensed per PC. One licence covers up to 2 PCs. It comes as a USB dongle or as a licence locked to the PC.</p></div>
+  </div>
+</section>
+
+</main>
+
+<footer class="end">
+  <img class="logo-full" src="img/logo.png" width="720" height="720" alt="Vitrine logo: two translucent planes meeting at a corner, over the word Vitrine.">
+  <div class="cta">
+    <a class="btn" href="help/index.html">
+      Read the documentation
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </a>
+    <!-- Download links: only the macOS DMG exists today. Fill in the Windows and Linux files before launch. -->
+    <a class="btn-line" href="../dist/Vitrine-0.1.0.dmg"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v9M4 7l4 4 4-4M2.5 14h11"/></svg>macOS</a>
+    <a class="btn-line" href="#" data-todo="windows"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v9M4 7l4 4 4-4M2.5 14h11"/></svg>Windows 11</a>
+    <a class="btn-line" href="#" data-todo="linux"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v9M4 7l4 4 4-4M2.5 14h11"/></svg>Linux</a>
+  </div>
+  <p class="legal mono">&copy; 2026 Studio Poetics&reg;. All rights reserved. Studio Poetics is a registered trademark.</p>
+  <p class="legal mono">NDI® is a registered trademark of Vizrt NDI AB. IBM Plex is under the SIL Open Font License.</p>
+  <div class="sign" aria-hidden="true">Vitrine</div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

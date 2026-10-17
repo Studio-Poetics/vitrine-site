@@ -1,0 +1,889 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vitrine Help</title>
+<style>
+@font-face { font-family: "Plex Sans"; src: url("fonts/IBMPlexSans-Light.ttf") format("truetype"), local("IBM Plex Sans Light"); font-weight: 300; }
+@font-face { font-family: "Plex Sans"; src: url("fonts/IBMPlexSans-Regular.ttf") format("truetype"), local("IBM Plex Sans"); font-weight: 400; }
+@font-face { font-family: "Plex Sans"; src: url("fonts/IBMPlexSans-Bold.ttf") format("truetype"), local("IBM Plex Sans Bold"); font-weight: 700; }
+@font-face { font-family: "Plex Mono"; src: url("fonts/IBMPlexMono-Regular.ttf") format("truetype"), local("IBM Plex Mono"); font-weight: 400; }
+
+:root {
+  color-scheme: light;
+  --paper: #E9EAEC; --card: #F6F7F8; --field: #DCDFE3; --line: #C7CACF;
+  --muted: #5F646B; --ink: #17191C; --accent: #44566A; --accent-ink: #304052; --accent-bg: #D5DCE4;
+  --sans: "Plex Sans", "IBM Plex Sans", "Helvetica Neue", Helvetica, sans-serif;
+  --mono: "Plex Mono", "IBM Plex Mono", Menlo, Consolas, monospace;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 400 17px/1.65 var(--sans); -webkit-font-smoothing: antialiased; }
+a { color: var(--accent-ink); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { color: var(--ink); }
+
+.layout { display: grid; grid-template-columns: 270px minmax(0, 1fr); max-width: 1320px; margin: 0 auto; }
+nav.toc { position: sticky; top: 0; height: 100vh; overflow-y: auto; padding: 40px 24px 40px 28px; border-right: 1px solid var(--line); }
+.brand { display: flex; align-items: center; gap: 10px; margin-bottom: 28px; }
+.brand b { font-size: 22px; letter-spacing: -0.01em; }
+.brand span { color: var(--muted); font-weight: 300; font-size: 17px; }
+.toc .cap { font: 700 11px/1 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin: 22px 0 10px; }
+.toc ol { list-style: none; margin: 0; padding: 0; }
+.toc li a { display: block; padding: 5px 10px; margin-left: -10px; border-radius: 3px; color: var(--ink); text-decoration: none; font-size: 15.5px; line-height: 1.35; border-left: 2px solid transparent; transition: background 0.35s var(--ease), border-color 0.35s var(--ease); }
+.toc li a:hover { background: var(--card); }
+.toc li a.on { background: var(--accent-bg); border-left-color: var(--accent); color: var(--accent-ink); font-weight: 700; }
+
+main { padding: 56px 64px 120px; min-width: 0; }
+.wrap { max-width: 900px; }
+header.hero { padding-bottom: 36px; border-bottom: 1px solid var(--line); margin-bottom: 8px; }
+header.hero .cap { font: 700 12px/1 var(--sans); letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
+h1 { font-size: 64px; line-height: 1.02; font-weight: 700; letter-spacing: -0.025em; margin: 0 0 20px; }
+h1 em { font-style: normal; font-weight: 300; color: var(--muted); }
+.lede { font-size: 21px; line-height: 1.55; font-weight: 300; max-width: 720px; margin: 0; }
+section { padding-top: 64px; }
+h2 { font-size: 38px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 6px; display: flex; align-items: baseline; gap: 16px; }
+h2 .n { font: 300 20px/1 var(--mono); color: var(--muted); letter-spacing: 0; }
+.sub { color: var(--muted); font-size: 18px; font-weight: 300; margin: 0 0 26px; }
+h3 { font-size: 21px; font-weight: 700; margin: 38px 0 8px; letter-spacing: -0.005em; }
+h4 { font: 700 12px/1 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin: 28px 0 10px; }
+p { margin: 0 0 16px; }
+ul, ol { padding-left: 22px; margin: 0 0 16px; }
+li { margin-bottom: 6px; }
+strong { font-weight: 700; }
+code, kbd { font-family: var(--mono); font-size: 15px; }
+code { background: var(--field); padding: 1px 6px; border-radius: 2px; }
+kbd { display: inline-block; min-width: 26px; text-align: center; padding: 1px 7px; background: var(--card); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 3px; line-height: 1.5; }
+pre { font: 15px/1.6 var(--mono); background: var(--ink); color: #E6E8EB; padding: 18px 20px; border-radius: 3px; overflow-x: auto; margin: 0 0 18px; }
+pre code { background: none; padding: 0; color: inherit; }
+pre .c { color: #8C939B; }
+.ui { font-weight: 700; color: var(--accent-ink); }
+
+figure { margin: 26px 0 30px; }
+.shot { position: relative; border: 1px solid var(--line); border-radius: 3px; overflow: hidden; background: var(--card); }
+.shot img { display: block; width: 100%; height: auto; }
+.pin { position: absolute; width: 28px; height: 28px; margin: -14px 0 0 -14px; border-radius: 50%; background: var(--accent); color: #fff; font: 700 14px/28px var(--sans); text-align: center; box-shadow: 0 0 0 3px rgba(255,255,255,0.9), 0 2px 6px rgba(23,25,28,0.25); opacity: 0; transform: scale(0.6); transition: opacity 0.5s var(--ease), transform 0.6s var(--ease); }
+.shot.seen .pin { opacity: 1; transform: none; }
+.shot.seen .pin:nth-child(2) { transition-delay: 0.05s; } .shot.seen .pin:nth-child(3) { transition-delay: 0.1s; }
+.shot.seen .pin:nth-child(4) { transition-delay: 0.15s; } .shot.seen .pin:nth-child(5) { transition-delay: 0.2s; }
+.shot.seen .pin:nth-child(6) { transition-delay: 0.25s; } .shot.seen .pin:nth-child(7) { transition-delay: 0.3s; }
+.shot.seen .pin:nth-child(8) { transition-delay: 0.35s; } .shot.seen .pin:nth-child(9) { transition-delay: 0.4s; }
+@media (prefers-reduced-motion: reduce) { .pin { opacity: 1; transform: none; transition: none; } html { scroll-behavior: auto; } }
+figcaption { color: var(--muted); font-size: 15px; margin-top: 10px; }
+ol.keys { list-style: none; padding: 0; counter-reset: k; margin: 18px 0 8px; }
+ol.keys > li { position: relative; padding-left: 42px; margin-bottom: 12px; counter-increment: k; }
+ol.keys > li::before { content: counter(k); position: absolute; left: 0; top: 1px; width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: #fff; font: 700 13px/26px var(--sans); text-align: center; }
+
+.note { display: grid; grid-template-columns: 22px 1fr; gap: 14px; background: var(--card); border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 3px; padding: 16px 20px; margin: 22px 0; }
+.note.warn { border-left-color: var(--ink); }
+.note svg { margin-top: 3px; }
+.note p:last-child { margin-bottom: 0; }
+
+table { width: 100%; border-collapse: collapse; margin: 8px 0 22px; font-size: 16px; }
+th, td { text-align: left; vertical-align: top; padding: 10px 14px 10px 0; border-bottom: 1px solid var(--line); }
+th { font: 700 11.5px/1.2 var(--sans); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+td:first-child { white-space: nowrap; font-weight: 700; padding-right: 22px; }
+.steps { counter-reset: s; list-style: none; padding: 0; }
+.steps > li { counter-increment: s; position: relative; padding: 0 0 18px 56px; border-left: 1px solid var(--line); margin: 0 0 0 16px; }
+.steps > li:last-child { border-left-color: transparent; }
+.steps > li::before { content: counter(s, decimal-leading-zero); position: absolute; left: -17px; top: -2px; width: 34px; height: 34px; background: var(--paper); border: 1px solid var(--accent); border-radius: 50%; color: var(--accent-ink); font: 700 13px/32px var(--mono); text-align: center; }
+.steps > li > b:first-child { display: block; font-size: 18px; margin-bottom: 4px; }
+.example { background: var(--card); border: 1px solid var(--line); border-radius: 3px; padding: 22px 24px 8px; margin: 22px 0; }
+.example h3 { margin-top: 0; }
+.rule { font-family: var(--mono); font-size: 15px; display: grid; grid-template-columns: 90px 1fr; gap: 4px 14px; margin: 0 0 18px; }
+.rule span:nth-child(odd) { font: 700 11.5px/2 var(--sans); letter-spacing: 0.12em; color: var(--muted); }
+footer { margin-top: 90px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: 15px; }
+
+@media (max-width: 900px) {
+  .layout { display: block; }
+  nav.toc { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--line); padding: 24px 16px; }
+  .toc ol { columns: 2; column-gap: 18px; }
+  main { padding: 32px 16px 80px; }
+  h1 { font-size: 44px; }
+  h2 { font-size: 30px; }
+  .pin { width: 20px; height: 20px; margin: -10px 0 0 -10px; font-size: 11px; line-height: 20px; }
+  td:first-child { white-space: normal; }
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-info" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6M12 7.5v.01"/></g></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2.5 20h19L12 3z"/><path d="M12 10v4.5M12 17.2v.01"/></g></symbol>
+  <symbol id="i-frame" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3" y="5" width="18" height="12" rx="1"/><path d="M8 21h8M12 17v4"/></g></symbol>
+</svg>
+
+<div class="layout">
+<nav class="toc" aria-label="Contents">
+  <div class="brand"><svg width="24" height="24" style="color:var(--accent)"><use href="#i-frame"/></svg><b>Vitrine</b><span>Help</span></div>
+  <div class="cap">Start</div>
+  <ol>
+    <li><a href="#start">Getting started</a></li>
+    <li><a href="#show">Show page</a></li>
+  </ol>
+  <div class="cap">Build the show</div>
+  <ol>
+    <li><a href="#outputs">Outputs</a></li>
+    <li><a href="#mapping">Mapping</a></li>
+    <li><a href="#patterns">Test patterns</a></li>
+    <li><a href="#content">Content</a></li>
+    <li><a href="#cues">Cues</a></li>
+    <li><a href="#triggers">Triggers</a></li>
+    <li><a href="#examples">Trigger examples</a></li>
+  </ol>
+  <div class="cap">Run it</div>
+  <ol>
+    <li><a href="#devices">Devices</a></li>
+    <li><a href="#settings">Settings</a></li>
+    <li><a href="#log">Log and health</a></li>
+    <li><a href="#remote">Remote and HTTP API</a></li>
+    <li><a href="#recovery">Recovery and safe mode</a></li>
+    <li><a href="#keys">Keyboard</a></li>
+    <li><a href="#trouble">Troubleshooting</a></li>
+  </ol>
+</nav>
+
+<main><div class="wrap">
+
+<header class="hero">
+  <div class="cap">User guide</div>
+  <h1>Vitrine <em>for projection shows</em></h1>
+  <p class="lede">Vitrine plays video and stills across one or more projectors, blends their overlapping edges into one image, warps and masks each projector to fit the surface, and runs cues on its own or when a sensor, a lighting desk or a phone tells it to.</p>
+</header>
+
+<div class="note"><svg width="22" height="22" style="color:var(--accent)"><use href="#i-info"/></svg>
+<div><p>The screenshots come from a demo show called <em>Gallery demo</em>: two projectors side by side on a 3600 x 1080 canvas. That demo uses ports 7100 to 7102 and 8180 so it could run next to a live copy. This guide uses the default ports throughout: OSC 7000, UDP 7001, TCP 7002 and HTTP 8080.</p></div></div>
+
+<!-- ============================================================ -->
+<section id="start">
+<h2><span class="n">01</span>Getting started</h2>
+<p class="sub">From an empty show to an image on the wall.</p>
+
+<p>Vitrine is one window for you (the control window) plus one window per projector (the outputs). The control window has nine pages along the top. You build a show on Outputs, Mapping, Content and Cues, and you run it from the Show page.</p>
+
+<ol class="steps">
+  <li><b>Connect the projectors</b>Plug them in and set the Mac to extend the desktop, not mirror it. Vitrine lists every display it can see at the bottom of the Outputs page.</li>
+  <li><b>Add one output per projector</b>On <span class="ui">Outputs</span>, add an output, pick the display, and set which part of the canvas it shows. If the projectors overlap, give their regions the same overlap and press <span class="ui">Auto blend overlaps</span>.</li>
+  <li><b>Line up the image</b>Turn on the <span class="ui">Canvas grid</span> test pattern (Show page), then on <span class="ui">Mapping</span> drag the warp points until the grid lines meet on the wall. Tune the edge blends with <span class="ui">Blend check</span>.</li>
+  <li><b>Add media</b>On <span class="ui">Content</span>, add video or image files and put them on a layer.</li>
+  <li><b>Make cues</b>On <span class="ui">Cues</span>, each cue says what every layer plays, with a fade. Mark one as the cue that plays when Vitrine starts.</li>
+  <li><b>Hand over</b>Set an edit PIN in <span class="ui">Settings</span> so visitors and staff can only use the Show page, and turn on <span class="ui">Start Vitrine at login</span> for an unattended machine.</li>
+</ol>
+
+<p>The show saves itself a few seconds after you stop editing, and every save keeps a timestamped backup. <kbd>Cmd</kbd> <kbd>S</kbd> saves at once.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="show">
+<h2><span class="n">02</span>Show page</h2>
+<p class="sub">Run the show, see what is playing, check health.</p>
+
+<figure>
+  <div class="shot">
+    <img src="img/show.png" alt="The Show page with the transport, cue chips, canvas preview, Health card and Test pattern card" loading="lazy">
+    <span class="pin" style="left:77.5%;top:6.1%">1</span>
+    <span class="pin" style="left:1%;top:10.4%">2</span>
+    <span class="pin" style="left:14.4%;top:18.4%">3</span>
+    <span class="pin" style="left:26%;top:26.6%">4</span>
+    <span class="pin" style="left:28.4%;top:34.3%">5</span>
+    <span class="pin" style="left:3.8%;top:45%">6</span>
+    <span class="pin" style="left:97.5%;top:16.2%">7</span>
+    <span class="pin" style="left:97.5%;top:57.3%">8</span>
+  </div>
+</figure>
+<ol class="keys">
+  <li><b>Next, Stop, Black</b> sit in the top bar on every page. <span class="ui">Next</span> plays the next cue in the list, <span class="ui">Stop</span> stops playback, <span class="ui">Black</span> fades every projector to black and pressing it again restores the picture. <span class="ui">Help</span> opens this guide.</li>
+  <li><b>Pages.</b> With an edit PIN set, only Show and Log open until someone unlocks editing.</li>
+  <li><b>Now playing</b>: the current cue, its number in the list (Cue 2 of 3) and how long it has run.</li>
+  <li><b>Transport</b>: <span class="ui">Next cue</span>, <span class="ui">Stop</span> and <span class="ui">Blackout</span>, larger, for the operator. While blacked out the button reads <span class="ui">Restore</span> and the line above ends in BLACKED OUT.</li>
+  <li><b>Cue chips</b>: click a cue to go to it straight away.</li>
+  <li><b>Canvas preview</b>: the whole canvas with each projector's region drawn on it, so you can see the show without looking at the wall.</li>
+  <li><b>Health</b>: frame rate, whether the render loop is running, the GPU and the canvas size. Below it, the Outputs card shows each output with a status dot, <em>Needs attention</em> lists any warning, and the Projectors card shows PJLink status. A problem here also goes to the log.</li>
+  <li><b>Test pattern</b>: shows a pattern on every projector, over the show. Pick <span class="ui">Off</span> when you are done. See <a href="#patterns">Test patterns</a>.</li>
+</ol>
+</section>
+
+<!-- ============================================================ -->
+<section id="outputs">
+<h2><span class="n">03</span>Outputs</h2>
+<p class="sub">The canvas, and which projector shows which part of it.</p>
+
+<p>Everything is laid out on one <strong>canvas</strong>, measured in pixels. Two 1920 x 1080 projectors side by side with a 240 px overlap make a 3600 x 1080 canvas. Each <strong>output</strong> is a window on one display, and each output has one or more <strong>slices</strong>. A slice takes a rectangle of the canvas and is what you warp, blend and mask on the Mapping page.</p>
+
+<figure>
+  <div class="shot">
+    <img src="img/outputs.png" alt="The Outputs page with two projector outputs and the list of connected displays" loading="lazy">
+    <span class="pin" style="left:20.6%;top:22.7%">1</span>
+    <span class="pin" style="left:26.3%;top:30.5%">2</span>
+    <span class="pin" style="left:46.9%;top:40.9%">3</span>
+    <span class="pin" style="left:25%;top:44.4%">4</span>
+    <span class="pin" style="left:31.9%;top:54.8%">5</span>
+    <span class="pin" style="left:17.2%;top:59%">6</span>
+    <span class="pin" style="left:89.4%;top:37.5%">7</span>
+    <span class="pin" style="left:13.1%;top:94.2%">8</span>
+  </div>
+</figure>
+<ol class="keys">
+  <li><b>Add output</b> adds a projector. <b>Auto blend overlaps</b> looks at where slice regions overlap on the canvas and sets each matching edge blend to that width. In the demo the left slice covers x 0 to 1920 and the right one x 1680 to 3600, so both get a 240 px blend.</li>
+  <li><b>Canvas</b> size in pixels. Content layers and slice regions use these coordinates.</li>
+  <li><b>Display.</b> The output goes fullscreen on the chosen display. Tick <span class="ui">Windowed preview</span> to get a normal window instead, which is handy while building a show on a laptop. Displays can be matched <em>by position</em> (first, second, third display) or <em>by name</em>, which survives a cable being moved to another port.</li>
+  <li><b>Window</b> position and size, used when Windowed preview is ticked.</li>
+  <li><b>10-bit</b> asks the display for 10 bits per channel, which smooths long, dark blend ramps. Tick it only when the cable and projector carry 10-bit; otherwise the system drops back to 8-bit and the Log says so.</li>
+  <li><b>Slice canvas region</b>: x, y, width and height of the canvas this slice shows. <span class="ui">Add slice</span> splits one output into several slices, for a wide desktop that spans several projectors in a single window.</li>
+  <li><b>Map this output</b> jumps to the Mapping page with this output selected.</li>
+  <li><b>Enabled</b> switch and delete. A disabled output closes its window.</li>
+  <li><b>Connected displays</b>: what the computer reports right now, with resolution.</li>
+</ol>
+
+<p>When several computers run one show (see <a href="#cluster">Several computers</a>), each output card also has a <span class="ui">Machine</span> field: the name of the computer that drives this projector. Leave it empty for the leader. Each computer opens only its own outputs and lists the others as <em>runs on</em> that machine.</p>
+
+<div class="note"><svg width="22" height="22" style="color:var(--accent)"><use href="#i-info"/></svg>
+<div><p>An output window ignores <kbd>Cmd</kbd> <kbd>W</kbd> and the close button, so a stray keypress cannot black out a projector. To close it, untick Enabled. If a display disappears (unplugged, asleep), Vitrine keeps the output and puts it back when the display returns.</p></div></div>
+</section>
+
+<!-- ============================================================ -->
+<section id="mapping">
+<h2><span class="n">04</span>Mapping</h2>
+<p class="sub">Warp, blend, black lift, masks and colour for each projector.</p>
+
+<figure>
+  <div class="shot">
+    <img src="img/mapping.png" alt="The Mapping page with the edit controls on the left and the warp canvas on the right" loading="lazy">
+    <span class="pin" style="left:20.6%;top:20.2%">1</span>
+    <span class="pin" style="left:15%;top:23.6%">2</span>
+    <span class="pin" style="left:16.9%;top:34.5%">3</span>
+    <span class="pin" style="left:12%;top:46.2%">4</span>
+    <span class="pin" style="left:18.8%;top:62%">5</span>
+    <span class="pin" style="left:12.5%;top:72.3%">6</span>
+    <span class="pin" style="left:11.3%;top:82%">7</span>
+    <span class="pin" style="left:65%;top:20.8%">8</span>
+  </div>
+</figure>
+<ol class="keys">
+  <li><b>Projector</b>: which slice you are editing.</li>
+  <li><b>Show grid</b> draws the canvas grid on that projector while you work.</li>
+  <li><b>Columns and rows</b> of the warp grid, from 2 to 33. Changing them resamples the current shape, so you do not lose your work. <span class="ui">Reset to flat</span> starts over.</li>
+  <li><b>Edit</b> list: choose the warp grid or one of the masks. <span class="ui">Add mask</span> makes a new one.</li>
+  <li><b>Edge blend</b> width in pixels for each side, with curve and lift, and below them the blend gamma (one value, or R, G and B separately). Here the right edge fades over 240 px.</li>
+  <li><b>Black lift</b> raises the black level outside the overlaps, with a feather, so the black of a single projector matches the doubled black where two overlap.</li>
+  <li><b>Colour match</b>: brightness, contrast, gain and gamma, to make two projectors look the same.</li>
+  <li><b>Warp canvas</b>. Drag a point to move it.</li>
+</ol>
+
+<h3>Warp</h3>
+<p>The warp is a smooth grid (Catmull-Rom) over the slice, so the image bends between points instead of folding at them. Start with a 3 x 3 or 5 x 3 grid and add rows or columns only where the surface needs them.</p>
+<ul>
+  <li>Drag a point to move it. Hold <kbd>Shift</kbd> while dragging to move at a tenth of the speed.</li>
+  <li>Click a point to select it, then use the arrow keys: each press moves 0.1% of the slice, or 1% with <kbd>Shift</kbd>. <kbd>Esc</kbd> deselects.</li>
+  <li>Points can go up to half a slice past each edge, for surfaces smaller than the throw.</li>
+</ul>
+
+<h3>Edge blend</h3>
+<p>Where two projectors overlap, each one fades out across the overlap so the sum looks like one image. Set the width on the matching sides of both projectors (left projector's right edge, right projector's left edge), or let <span class="ui">Auto blend overlaps</span> on the Outputs page do it. <strong>Curve</strong> shapes the ramp and <strong>gamma</strong> corrects for the projector's light response: if the overlap looks brighter than the rest, raise the gamma a little; if it looks darker, lower it. If the overlap shows a colour tint (often red or blue), switch that edge to <span class="ui">RGB</span> and set the gamma of each channel apart.</p>
+<p><strong>Measured response.</strong> For the most even overlap, measure the projector instead of guessing a gamma. Show the <span class="ui">Steps</span> test pattern, read each grey step with a light meter, and type the readings into a spreadsheet: one column with the signal level (0 to 255, or 0 to 1) and one with the reading, or three readings for red, green and blue. Save it as CSV or text and pick it with <span class="ui">Import…</span> in the blend card. Lines starting with <code>#</code> and headings are ignored, and the highest signal counts as full white. Vitrine then fades the overlap in real light, so the blend gamma fields grey out. <span class="ui">Clear</span> goes back to gamma.</p>
+
+<h3>Black lift</h3>
+<p>Projectors cannot show true black, so the overlap of two is greyer than the area lit by one. Black lift adds a small grey to the areas outside the overlaps to match. Show the <span class="ui">Black</span> test pattern in a dark room and raise the value until the overlap band disappears. Feather softens the edge of the lifted area.</p>
+<p>With four projectors in a 2x2 grid there are three levels of black: one projector in the middles, two along each overlap band, four in the corner. <strong>Black lift</strong> covers the middles. The <strong>lift</strong> column for each edge raises its overlap band, but not the corner where two bands cross, so set it on both projectors that share the band until the bands match the corner.</p>
+
+<h3>Masks</h3>
+<p>A mask hides a part of the projector's image, for a door, a pillar or a frame edge. A new mask is a square in the middle of the slice. Tick <span class="ui">Invert</span> to keep only the inside and hide everything else. <span class="ui">Feather</span> (0 to 0.5) softens the edge.</p>
+<ul>
+  <li>Select the mask in the Edit list, then drag its points on the canvas.</li>
+  <li>Double-click on the outline to add a point. Right-click a point to remove it (a mask keeps at least three).</li>
+  <li><span class="ui">On</span> turns a mask off without deleting it.</li>
+</ul>
+<h4>Put media inside a mask</h4>
+<p>Select a mask and pick a file under <span class="ui">Fill with</span>. The media then shows only inside the shape instead of hiding it. It is stretched over the shape's bounding box, loops, and is silent. Pick <em>Nothing</em> to go back to hiding the area. Feather softens the edge of the shape.</p>
+
+
+<h3>3D mesh</h3>
+<p>For a sculpture, a model or a set piece, project onto its 3D shape instead of bending the flat warp grid. Export the object from your 3D program as an <strong>OBJ file with UVs</strong>. The UVs decide where the slice's region of the canvas lands on the surface: UV 0,0 is the region's bottom left and 1,1 its top right. In the <span class="ui">3D mesh</span> card, pick the file with <span class="ui">Load OBJ…</span>. The Edit list then shows <span class="ui">Pins</span> in place of the warp grid. <span class="ui">Remove</span> goes back to the flat grid.</p>
+<ul>
+  <li><strong>Pose.</strong> Type where the projector lens sits (<span class="ui">Lens at</span>), the point it aims at (<span class="ui">Looks at</span>), its vertical <span class="ui">Field of view</span> and any <span class="ui">Lens shift</span>, in the model's units with y up. <span class="ui">Frame mesh</span> aims at the whole model from the front as a starting point.</li>
+  <li><strong>Pins.</strong> Measuring a projector exactly is hard, so pin it instead. Double-click near a vertex of the model to pin it, then drag the pin (or nudge it with the arrow keys) to where that corner really falls on the object. A thin line joins each vertex to its pin. With six or more pins, spread in depth and not all on one face, Vitrine solves the projector and the pose fields grey out. The card shows the remaining error. Right-click removes a pin. <span class="ui">Clear pins</span> goes back to the typed pose.</li>
+  <li><strong>Hide back faces</strong> keeps the far side of the model from painting through. Turn it off for open shapes seen from both sides.</li>
+  <li>After editing the file, press <span class="ui">Reload</span>. Pins keep their vertex numbers, so a model with new vertex order needs new pins.</li>
+</ul>
+<p>Edge blends, black lift, masks and colour match still apply on top, in the projector's own image.</p>
+
+<h3>Colour match</h3>
+<p>Use the <span class="ui">White</span> and <span class="ui">Grey ramp</span> patterns. Bring the brighter projector down with gain rather than pushing the dimmer one up, then match the mid-greys with gamma.</p>
+
+<h3 id="camera-align">Camera alignment</h3>
+<p>A camera can do the first rough warp and blend for you. Vitrine shows black and white stripe patterns (Gray code) on each projector in turn, finds every projector pixel in the camera picture, and from that works out where each projector lands on the wall. It is a starting point: fine-tune the warp points by hand afterwards.</p>
+<figure>
+  <div class="shot">
+    <img src="img/camera-align.png" alt="The Camera alignment card with the camera view, two projector outlines and the four canvas corner handles" loading="lazy">
+  </div>
+</figure>
+<ol>
+  <li>Open every output window on its projector. Outputs that are closed, run on another computer in a cluster, or use a 3D mesh are skipped.</li>
+  <li>Set up a webcam or capture camera so it sees the whole wall. <strong>Lock its exposure, focus and white balance</strong> (in the camera's own app) and keep the room dark. Automatic exposure fights the patterns and gives a noisy result.</li>
+  <li>In the <span class="ui">Camera alignment</span> card at the bottom of the Mapping page, pick the camera. <span class="ui">Settle ms</span> is the wait between a pattern and the photo of it. Raise it if the camera lags (USB webcams often need 300 to 600 ms).</li>
+  <li>Press <span class="ui">Scan outputs</span>. Each projector shows about 40 patterns, so two projectors take about half a minute. <span class="ui">Cancel</span> stops the scan and puts the show back.</li>
+  <li>The camera view then shows each projector's outline and four corner handles for the canvas. Drag the handles to where the corners of the picture should be on the wall. <span class="ui">Reset corners</span> puts them back.</li>
+  <li>Press <span class="ui">Apply to warps</span>. Each projector gets a warp grid of at least 9 x 9, a region of the canvas, and blend widths on the edges where it overlaps a neighbour. The Log lists what was set. <kbd>Cmd</kbd> <kbd>Z</kbd> undoes it.</li>
+</ol>
+<h4>Which camera to use</h4>
+<p>Any ordinary camera that macOS lists as a video device works. No special camera is needed, and it does not have to be expensive.</p>
+<table>
+  <tr><th>Camera</th><th>Notes</th></tr>
+  <tr><td>USB webcam</td><td>The easiest choice. Plug it in and pick it in the card. A 1080p webcam is plenty. Raise <span class="ui">Settle ms</span> if the picture lags.</td></tr>
+  <tr><td>Phone as a webcam</td><td>An iPhone can act as a Mac webcam (Continuity Camera: same Apple account, Wi-Fi and Bluetooth on, phone near the Mac, or on a USB cable). If it shows in the camera list, it works like any webcam. Phone cameras apply strong automatic exposure and processing, so lock exposure and focus first. If the phone does not appear in the list, use a USB webcam instead. Not every setup lists it; this has not been tested on every macOS version.</td></tr>
+  <tr><td>Mirrorless or DSLR</td><td>Gives the best result, especially for a wide wall or a dome. Connect it through an HDMI capture card (USB 3, UVC type), with the camera's clean HDMI output on and its screen info and autofocus off. Some cameras also have a webcam mode over USB.</td></tr>
+  <tr><td>IP, NDI or phone app streams</td><td>Not used for alignment. The card lists cameras and capture cards connected to this Mac, plus the Simulated camera.</td></tr>
+</table>
+
+<h4>Camera and lens</h4>
+<ul>
+  <li><b>Resolution.</b> 1280 x 720 is enough. Vitrine reduces every camera frame to at most 1280 pixels wide before it measures anything, so a 4K camera gives no extra accuracy. What matters is that the camera sees each projector pixel as a clear stripe: the finer the pattern, the more the picture needs to be sharp, not large.</li>
+  <li><b>Lens.</b> Wide enough to show the whole lit wall with a little dark margin around it, and no wider. A webcam with a field of view of 70 to 90 degrees is typical. Very wide or fisheye lenses bend straight lines, and Vitrine does not correct lens distortion: the warp will follow the bend and a straight edge on the wall will come out curved. If you must use a wide lens, keep the projection in the centre of the picture, where distortion is lowest.</li>
+  <li><b>Frame rate.</b> Any. 30 fps is fine because each pattern is held still until the photo is taken.</li>
+  <li><b>Sensor.</b> Low-light and good dynamic range help most, because the dark stripe has to be dark and the light stripe bright. Cheap cameras that compress heavily blur the finest stripes.</li>
+</ul>
+
+<h4>Setting up the camera</h4>
+<ol>
+  <li><b>Connect it</b> before you open Vitrine, and allow camera access when macOS asks (System Settings, Privacy &amp; Security, Camera). If it is not in the list, unplug and plug it in again, then reopen the card.</li>
+  <li><b>Place it</b> on a tripod or a fixed mount, as close to the audience's view of the wall as you can, and square to the surface. It can sit anywhere that sees every projector's picture, but the further off to the side, the more the picture is stretched. Do not touch or move it until the scan is done and applied.</li>
+  <li><b>Frame it</b> so that the whole lit area, all projectors together, fills most of the picture with a margin. Check in the camera view in the card. All four corners of every projector must be visible.</li>
+  <li><b>Focus</b> on the wall and lock it. Turn autofocus off. A soft picture loses the fine stripes.</li>
+  <li><b>Lock exposure and white balance.</b> Point the camera at the wall with the Show page on <span class="ui">Blend check</span> or a white pattern. Set exposure so the lit wall is bright but nothing is clipped to pure white. Then lock exposure and white balance in the camera's own app or its menu. Vitrine has no camera controls of its own.</li>
+  <li><b>Darken the room.</b> Switch off house lights and close blinds. The lit stripes must be clearly brighter than the dark ones. If a part of a projector's picture is not detected, that area is dropped from the result, and the log says which output the camera did not see.</li>
+  <li><b>Mind the surface.</b> Gloss, mirrors, windows and shiny floors show reflections that look like extra stripes. A matte, evenly white or grey wall gives the cleanest scan. On a dark surface, raise the projector's brightness first.</li>
+  <li><b>Turn off picture effects</b> that change the picture while it is on: face tracking, centre stage, background blur, HDR, night mode, beauty filters. Each one alters the image between patterns.</li>
+  <li><b>Keep it steady.</b> Do not bump the table or let anyone walk in front of the beam during the scan, which takes about half a minute.</li>
+</ol>
+<p>If the scan stops with a message, these are the common ones: <em>did not draw the pattern (is its window open?)</em> means that output window is closed. <em>the camera did not see this projector</em> means too little of that picture was bright enough in the camera view: check framing, exposure and room light. <em>the camera changed resolution during the scan</em> means the camera switched mode, often because another program grabbed it; close other camera apps. <em>the camera sent no frames</em> means access was refused or another program holds the camera.</p>
+
+<p>The blend widths come from the overlap of the projectors' bounding boxes, so with strong keystone check them on the <span class="ui">Blend check</span> test pattern. <span class="ui">Simulated camera</span> runs the whole process without hardware, to try it out.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="patterns">
+<h2><span class="n">05</span>Test patterns</h2>
+<p class="sub">Show page, Test pattern card. They go on every projector, over the show.</p>
+
+<figure>
+  <div class="shot"><img src="img/pattern-grid.png" alt="Canvas grid test pattern on the left and right outputs" loading="lazy"></div>
+  <figcaption>Canvas grid on the two demo outputs. The grid is drawn on the canvas, so where the projectors overlap the same lines must land on top of each other.</figcaption>
+</figure>
+
+<table>
+  <tr><th>Pattern</th><th>Use it to</th></tr>
+  <tr><td>Canvas grid</td><td>Line up warps. Thin lines every 100 px, thick every 500 px, a circle in each 500 px cell, and the canvas centre lines in yellow.</td></tr>
+  <tr><td>Projector colours</td><td>See which projector is which: each slice gets its own solid colour.</td></tr>
+  <tr><td>White</td><td>Check brightness and colour match.</td></tr>
+  <tr><td>Black</td><td>Set black lift in a dark room.</td></tr>
+  <tr><td>Grey ramp</td><td>11 grey steps from black to white, for gamma and colour match.</td></tr>
+  <tr><td>Blend check</td><td>Plain white with the edge blends and masks applied. A good blend shows an even white across the overlap.</td></tr>
+</table>
+
+<figure>
+  <div class="shot"><img src="img/pattern-blend.png" alt="Blend check test pattern on the left and right outputs" loading="lazy"></div>
+  <figcaption>Blend check. Each output fades to black across the 240 px overlap, and the right output also shows its mask as a black rectangle. On the wall the two ramps add up to even white.</figcaption>
+</figure>
+
+<p>Colour match, black lift, blends and masks all apply to the patterns too, so what you see is what the show will look like.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="content">
+<h2><span class="n">06</span>Content</h2>
+<p class="sub">Media files, and the layers they play on.</p>
+<p>The <span class="ui">Layer placement</span> card shows the canvas with every layer as a box. Click a layer to pick it, drag a corner handle to reshape it, drag inside it to move it. Corners snap to the canvas edges and centre; hold Alt to move freely. The numeric corner fields below stay available. Small <span class="ui">?</span> buttons beside section titles open the matching part of this guide.</p>
+
+<figure>
+  <div class="shot">
+    <img src="img/content.png" alt="The Content page with three media files, a colour, and two layers" loading="lazy">
+    <span class="pin" style="left:21.5%;top:22.7%">1</span>
+    <span class="pin" style="left:41.5%;top:30.4%">2</span>
+    <span class="pin" style="left:31.9%;top:64.5%">3</span>
+    <span class="pin" style="left:38.8%;top:68%">4</span>
+    <span class="pin" style="left:91.9%;top:64.5%">5</span>
+    <span class="pin" style="left:9.4%;top:80.9%">6</span>
+  </div>
+</figure>
+<ol class="keys">
+  <li><b>Add media files</b> (video or images), <b>Add image sequence</b>, <b>Add capture input</b> (see Live input below) or <b>Add solid colour</b>. Files inside the show's folder are stored with a relative path, so you can copy the whole folder to another machine.</li>
+  <li>An <b>image sequence</b> is a folder of numbered frames, for example <code>shot_00001.png</code>, <code>shot_00002.png</code> and on. PNG, JPEG, TIFF, BMP, WebP, DPX and EXR work. Pick the folder, then set the frame rate in the <b>fps</b> box next to the name (25 by default). It shows as <b>FRAMES</b> and plays, loops and seeks like a video. Numbering may start at any number but must have no gaps: playback ends at the first missing frame. Sequences have no sound.</li>
+  <li><b>Media info</b>: size, frame rate, length and codec, read from the file. If a file cannot be read, it says so here and in the log.</li>
+  <li><b>Blend mode</b> of the layer: Normal, Add or Multiply.</li>
+  <li><b>Corners</b> TL, TR, BR, BL in canvas pixels. <span class="ui">Fit canvas</span> fills the whole canvas. Moving the corners places the layer anywhere, even as a skewed shape, like the Title layer here.</li>
+  <li><b>Crop, soft edge, colour</b> (click to open, opens by itself once something is set). <b>Crop %</b> cuts the source from the left, top, right and bottom, and what is left fills the corners. <b>Soft edge px</b> fades the layer's edges over that many canvas pixels, good for a picture floating on a wall. <b>Colour</b>: brightness, contrast and saturation (0 is black and white), then <b>Tint</b>, a multiplier per channel where 1 leaves it unchanged. <span class="ui">Reset look</span> puts all of these back.</li>
+  <li><b>Layer order</b>. The top of the list draws first, later layers draw on top. Use the up and down arrows to move a layer.</li>
+  <li><b>Add layer</b>.</li>
+</ol>
+<p><b>10-bit, ProRes and HDR video.</b> 10-bit HEVC, ProRes 422 and ProRes 4444 keep their full bit depth on the way to the canvas, and ProRes 4444 alpha shows the layers underneath. HDR video (PQ or HLG, BT.2020) is converted for SDR projectors: reference white (203 nits) shows as near-full white and highlights up to 1000 nits roll off smoothly instead of clipping. For the smoothest ramps, also tick <b>10-bit</b> on the output.</p>
+<p><b>Sound</b> (under each layer): the output device for that layer's video sound, and its volume from 0 to 2 (1 is the file as recorded). Each layer can go to a different device, for example the hall speakers and a headphone amplifier on a USB interface. Sound follows the video's clock, including seeks and loops, and fades with the layer's opacity and with <span class="ui">Black</span>. It plays only at normal speed; paused or sped-up video is silent. A file with no audio track plays silently. If the chosen device is unplugged, sound moves to the system default and the Health card says so.</p>
+<h3>Live input: cameras, capture cards, NDI and streams</h3>
+<p><span class="ui">Add capture input</span> adds a <b>LIVE</b> item that shows a source as it arrives. Pick it from the <b>Device</b> menu, or type the source into the path:</p>
+<ul>
+  <li><b>Cameras and capture cards</b> connected to the Mac. The first time, macOS asks for camera access. The <b>fps</b> box asks the device for a rate; <b>auto</b> tries 30, 25, 60, 50, 29.97, 59.94 and 24.</li>
+  <li><b>NDI&reg; sources</b> on the local network, listed in the Device menu under the cameras (they take a second or two to appear). They are stored as <code>ndi:</code> followed by the source name, for example <code>ndi:STUDIO-PC (OBS)</code>. macOS asks once for local network access. The NDI runtime is built into Vitrine, so nothing else needs to be installed. Free NDI tools for sending and testing are at <a href="https://ndi.video/tools/">ndi.video/tools</a>.</li>
+  <li><b>Network streams</b>: <code>srt://</code>, <code>rtsp://</code> and <code>udp://</code> addresses.</li>
+</ul>
+<p>Live input always shows the newest frame and never builds up delay. If the source drops out, the layer holds its last frame, the Health card says so, and Vitrine reconnects every 2 seconds. Live input has no sound, and NDI alpha is not used.</p>
+<p style="color: var(--muted)">NDI&reg; is a registered trademark of Vizrt NDI AB. See <a href="https://ndi.video/">ndi.video</a>.</p>
+<p>A layer is a place on the canvas. What plays on it, and at what opacity, is set by the cues. Video is decoded on the graphics hardware where possible, with a software fallback. H.264 and HEVC in an MP4 or MOV are the safe choices; for a gapless loop, export the file so its last frame leads into its first.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="cues">
+<h2><span class="n">07</span>Cues</h2>
+<p class="sub">A cue sets what every layer plays, and what happens next.</p>
+<p>In the list, click a colour swatch in the editor to label a cue (six cool colours, shown as a bar beside its number). Ctrl/Cmd-click adds cues to a group and Shift-click selects a range, then pick one colour or delete the whole group. The <span class="ui">Go to</span> box takes a cue number or part of a name: press Enter to select and play it.</p>
+
+<figure>
+  <div class="shot">
+    <img src="img/cues.png" alt="The Cues page with the cue list on the left and the selected cue on the right" loading="lazy">
+    <span class="pin" style="left:15.6%;top:33.6%">1</span>
+    <span class="pin" style="left:20.6%;top:29%">2</span>
+    <span class="pin" style="left:80.6%;top:15.9%">3</span>
+    <span class="pin" style="left:52.5%;top:19.9%">4</span>
+    <span class="pin" style="left:67.5%;top:31.1%">5</span>
+    <span class="pin" style="left:56.9%;top:34.5%">6</span>
+    <span class="pin" style="left:65%;top:56.6%">7</span>
+  </div>
+</figure>
+<ol class="keys">
+  <li><b>Cue list</b>. The playing cue has a LIVE tag. <span class="ui">Next</span> follows the list order; move the selected cue with its up and down arrows. A cue's <span class="ui">Note</span> shows beside it in the list, for the operator only. With more than 8 cues, the Show page switches to a scrollable list with a search box and a NEXT tag. Vitrine has no timeline on purpose: produce the content in an editing program, then use cues, <span class="ui">Continue when media ends</span> and triggers to sequence it. Videos in the next cue (and in a follow target) are opened and decoded ahead of time, so the cut to them is instant; the log says "first frame in 0 ms, preloaded".</li>
+  <li><b>Play</b> a cue straight from the list.</li>
+  <li><b>Go</b>, <b>Duplicate</b> and <b>Delete</b> for the selected cue.</li>
+  <li><b>Fade</b> time, and <span class="ui">Play this cue when Vitrine starts</span>. Only one cue can be the startup cue.</li>
+  <li><b>Per layer</b>: tick a layer to include it in the cue, then pick its media and opacity. <span class="ui">(empty: fade out)</span> fades the layer out. Layers left out keep what they were showing.</li>
+  <li><b>Playing</b> (untick to pause), <b>Loop</b>, <b>Restart if already showing</b> (start from the top even if this media was already on the layer) and <b>Speed</b>.</li>
+  <li><b>THEN</b>: what happens when this cue is done.</li>
+</ol>
+
+<h3>Follow (THEN)</h3>
+<table>
+  <tr><th>Choice</th><th>What it does</th></tr>
+  <tr><td>Wait for an operator or trigger</td><td>The cue holds until someone presses Next or Go, or a trigger fires.</td></tr>
+  <tr><td>Continue after a time</td><td>Goes to the chosen cue after a set time.</td></tr>
+  <tr><td>Continue when media ends</td><td>Goes to the chosen cue when the media on the chosen layer finishes. Use it for an intro film that hands over to a loop.</td></tr>
+</table>
+<p>Cues can be called by their name, their number in the list (counting from 1) or their internal id, from OSC, HTTP, the remote and triggers. Names are not case sensitive.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="triggers">
+<h2><span class="n">08</span>Triggers</h2>
+<p class="sub">When something happens, if conditions hold, do these actions.</p>
+
+<figure>
+  <div class="shot">
+    <img src="img/triggers.png" alt="The Triggers page with the trigger list on the left, one trigger open and its trace below" loading="lazy">
+    <span class="pin" style="left:22.5%;top:42.2%">1</span>
+    <span class="pin" style="left:46.6%;top:19.8%">2</span>
+    <span class="pin" style="left:50%;top:27.7%">3</span>
+    <span class="pin" style="left:53.1%;top:37.1%">4</span>
+    <span class="pin" style="left:41.3%;top:50.3%">5</span>
+    <span class="pin" style="left:33.8%;top:66.4%">6</span>
+    <span class="pin" style="left:87.3%;top:15.9%">7</span>
+    <span class="pin" style="left:82%;top:87.2%">8</span>
+  </div>
+</figure>
+<ol class="keys">
+  <li><b>Trigger list</b> with a summary of each event.</li>
+  <li><b>Enabled</b> and <b>Ignore repeats for seconds</b>: after firing, the trigger ignores the same event for that long. Use it for sensors that chatter.</li>
+  <li><b>WHEN</b>: the event.</li>
+  <li><b>ONLY IF</b>: conditions. All of them must be true.</li>
+  <li><b>DO</b>: the actions, run top to bottom.</li>
+  <li><b>Add action</b>.</li>
+  <li><b>Test</b> (top right) runs the actions now without waiting for the event. Conditions are checked and reported but do not block a test.</li>
+  <li>The built-in OSC addresses work without any trigger. See <a href="#remote">Remote and HTTP API</a>.</li>
+</ol>
+<p><b>Trace</b>, below the actions, lists what this trigger did, newest first. Each line is marked OK or SKIP: the event that fired it, every action step with its result (for example "go to cue Intro title" or "PJLink: no projector chosen"), and why an event was skipped ("current cue is Idle (now Gallery loop) is false", or a repeat inside the ignore window). Steps after a wait keep their numbers. The last 400 lines across all triggers are kept until you quit; <b>Clear trace</b> empties this trigger's lines.</p>
+
+<h3>Events (WHEN)</h3>
+<table>
+  <tr><th>Event</th><th>Fires when</th></tr>
+  <tr><td>OSC message</td><td>An OSC message arrives on port 7000 at this address. <code>*</code> matches anything within one part of the path, so <code>/room/*/enter</code> matches <code>/room/2/enter</code>.</td></tr>
+  <tr><td>UDP text</td><td>A UDP packet on port 7001 matches the text.</td></tr>
+  <tr><td>TCP text</td><td>A line on a TCP connection to port 7002 matches the text.</td></tr>
+  <tr><td>HTTP call</td><td>Someone calls <code>/api/trigger/&lt;name&gt;</code>.</td></tr>
+  <tr><td>Key press</td><td>A key is pressed while a Vitrine window has focus (default <kbd>space</kbd>). Letters use their lower-case name; other keys use names like <code>enter</code> or <code>arrowright</code>.</td></tr>
+  <tr><td>Time of day</td><td>The clock reaches HH:MM on the chosen days. No days chosen means every day.</td></tr>
+  <tr><td>Repeat every</td><td>A fixed interval passes.</td></tr>
+  <tr><td>App started</td><td>Vitrine starts.</td></tr>
+  <tr><td>Cue started</td><td>A given cue starts.</td></tr>
+  <tr><td>Media ended</td><td>Media on a given layer reaches its end.</td></tr>
+  <tr><td>Variable changed</td><td>A variable gets a new value.</td></tr>
+  <tr><td>Art-Net channel</td><td>An Art-Net channel rises through a threshold (listed as <code>ART-NET universe.channel &gt; threshold</code>). Turn on Art-Net input in Settings first.</td></tr>
+  <tr><td>Serial line</td><td>A serial device (Devices page) sends a line that matches the text. Matching works as for UDP text; leave the device on "any" to listen to all of them.</td></tr>
+  <tr><td>MIDI input</td><td>A note, controller or program change arrives on any MIDI input. Channel 0 means any channel. Notes and controllers fire when the value rises to <span class="ui">Reaches</span> or above, once, and fire again only after the value drops back below it.</td></tr>
+  <tr><td>Custom event</td><td>Another trigger fires it with <span class="ui">Fire custom event</span>.</td></tr>
+</table>
+
+<h4>Matching UDP and TCP text</h4>
+<p>The text must match the whole message, after the line ending is trimmed. To match a pattern instead, write a regular expression between slashes: <code>/^zone \d+$/i</code> matches <code>zone 3</code> and <code>ZONE 12</code> (the <code>i</code> ignores case). The message is split into words to give arguments: <code>arg0</code> is the first word, <code>arg1</code> the second. OSC arguments are numbered the same way.</p>
+
+<h3>Conditions (ONLY IF)</h3>
+<table>
+  <tr><th>Condition</th><th>True when</th></tr>
+  <tr><td>Variable test</td><td>A variable compares to a value with <code>==</code> <code>!=</code> <code>&gt;</code> <code>&lt;</code> <code>&gt;=</code> <code>&lt;=</code> or <code>contains</code>. Numbers compare as numbers.</td></tr>
+  <tr><td>Argument test</td><td>An argument of the incoming message compares to a value, with the same operators.</td></tr>
+  <tr><td>Current cue</td><td>A given cue is (or is not) playing.</td></tr>
+  <tr><td>Time window</td><td>The time of day is between two times.</td></tr>
+</table>
+
+<h3>Actions (DO)</h3>
+<table>
+  <tr><th>Action</th><th>Does</th></tr>
+  <tr><td>Go to cue / Next cue / Stop</td><td>The same as the transport buttons.</td></tr>
+  <tr><td>Blackout / Restore from blackout</td><td>Fades all outputs to or from black over the given time.</td></tr>
+  <tr><td>Change a layer</td><td>Sets a layer's opacity and play or pause, with a fade, without changing cue.</td></tr>
+  <tr><td>Set variable</td><td>Sets a value, adds to it, or toggles it.</td></tr>
+  <tr><td>Fire custom event</td><td>Starts any trigger listening for that custom event.</td></tr>
+  <tr><td>Wait</td><td>Pauses before the next action, in milliseconds.</td></tr>
+  <tr><td>Send OSC / UDP / TCP</td><td>Sends a message to another device: host, port, and the address or text.</td></tr>
+  <tr><td>Send Art-Net</td><td>Sets one DMX channel on a host and universe.</td></tr>
+  <tr><td>Send serial</td><td>Writes text to a serial device. <code>\n</code> and <code>\r</code> become line endings, so <code>ON\n</code> sends ON and a newline.</td></tr>
+  <tr><td>Send MIDI</td><td>Sends a note, controller or program change (channel 1 to 16) to every MIDI output whose name contains the port text, or to all of them when it is empty.</td></tr>
+  <tr><td>Projector command</td><td>Power on, power off, shutter close (mute), shutter open, or switch input, over PJLink.</td></tr>
+  <tr><td>Test pattern</td><td>Shows a test pattern, or turns it off.</td></tr>
+  <tr><td>Write to log</td><td>Adds a line to the log.</td></tr>
+  <tr><td>Script</td><td>A few lines of JavaScript for logic the rows above can't express. See below.</td></tr>
+</table>
+<p>Outgoing text can include values: <code>{arg0}</code>, <code>{arg1}</code> for the incoming arguments, <code>{var:visitors}</code> for a variable, and <code>{cue}</code> for the current cue.</p>
+
+<h3>Scripts</h3>
+<p>A Script action runs JavaScript when the trigger fires. Use it for arithmetic, branching on arguments or picking a cue by number. A script can't open files, reach the network or set timers. It is stopped after 100 ms or 16 MB of memory, and the error shows in the trace and the log with its line number. Scripts run on their own thread, one at a time, so even a slow script never holds up the projectors; its actions start on the next frame after it finishes (usually within a few milliseconds).</p>
+<p>A script reads <code>args[0]</code>, <code>args[1]</code> and on (the incoming arguments, as text), <code>vars.visitors</code> or <code>getVar('visitors')</code>, and <code>cue</code> (the current cue name). These calls act on the show:</p>
+<table>
+  <tr><th>Call</th><th>Does</th></tr>
+  <tr><td><code>go('Loop')</code>, <code>next()</code>, <code>stop()</code></td><td>Cue playback. Cues are found by name.</td></tr>
+  <tr><td><code>blackout(ms)</code>, <code>unblackout(ms)</code></td><td>Fade to black or back, 1000 ms if left out.</td></tr>
+  <tr><td><code>layer('Main', 0.5, ms)</code></td><td>Fades a layer's opacity.</td></tr>
+  <tr><td><code>setVar('name', value)</code>, <code>emit('event')</code></td><td>Sets a variable or fires a custom event.</td></tr>
+  <tr><td><code>wait(ms)</code></td><td>Delays the calls after it, and the trigger's remaining actions.</td></tr>
+  <tr><td><code>osc(host, port, '/addr', ...)</code>, <code>udp(host, port, text)</code>, <code>tcp(host, port, text)</code></td><td>Network messages.</td></tr>
+  <tr><td><code>artnet(host, universe, channel, value)</code>, <code>serial('Arduino', text)</code></td><td>DMX and serial devices (by name).</td></tr>
+  <tr><td><code>log(...)</code></td><td>Writes a line to the log.</td></tr>
+</table>
+<p>The calls run in order once the script ends, and each one appears in the trace. For example, this plays the Loop cue for every tenth visitor:</p>
+<pre><code>const n = Number(vars.visitors || 0) + 1;
+setVar('visitors', n);
+if (n % 10 === 0) go('Loop');</code></pre>
+</section>
+
+<!-- ============================================================ -->
+<section id="examples">
+<h2><span class="n">09</span>Trigger examples</h2>
+<p class="sub">Three common set-ups, with a command to test each one from a terminal.</p>
+
+<div class="example">
+<h3>A lighting desk starts the show over OSC</h3>
+<div class="rule">
+  <span>WHEN</span><span>OSC message  /show/start</span>
+  <span>DO</span><span>Go to cue  Gallery loop</span>
+</div>
+<p>Test it from another computer (replace <code>show-mac.local</code> with the show machine's name or IP). <code>oscsend</code> comes with liblo (<code>brew install liblo</code>).</p>
+<pre><code>oscsend show-mac.local 7000 /show/start
+<span class="c"># The built-in addresses need no trigger at all:</span>
+oscsend show-mac.local 7000 /vitrine/go s "Gallery loop"
+oscsend show-mac.local 7000 /vitrine/go i 2
+oscsend show-mac.local 7000 /vitrine/blackout i 1</code></pre>
+</div>
+
+<div class="example">
+<h3>A sensor counts visitors over UDP</h3>
+<div class="rule">
+  <span>WHEN</span><span>UDP text  /^zone \d+$/</span>
+  <span>DO</span><span>Set variable  visitors  Add 1</span>
+  <span></span><span>Send OSC  10.0.0.40:8000  /light/zone  {arg1}</span>
+</div>
+<p>Add the variable <code>visitors</code> in Settings first, start value <code>0</code>, with Remember ticked so the count survives a restart. The sensor sends <code>zone 3</code>; <code>{arg1}</code> is the <code>3</code>. Test it:</p>
+<pre><code>echo "zone 3" | nc -u -w1 show-mac.local 7001</code></pre>
+<p>A second trigger could then use <span class="ui">Variable changed</span> with the condition <code>visitors &gt;= 100</code> to play a special cue.</p>
+</div>
+
+<div class="example">
+<h3>Closing time from a building system over HTTP</h3>
+<div class="rule">
+  <span>WHEN</span><span>HTTP call  closing</span>
+  <span>DO</span><span>Blackout  fade 3000 ms</span>
+  <span></span><span>Wait  5000 ms</span>
+  <span></span><span>Projector command  Hall projector  Power off</span>
+</div>
+<pre><code>curl -X POST "http://show-mac.local:8080/api/trigger/closing?token=YOUR_TOKEN"
+<span class="c"># TCP works too. A trigger with TCP text "closing" answers to:</span>
+printf 'closing\n' | nc show-mac.local 7002</code></pre>
+<p>The same thing on a timer: use <span class="ui">Time of day</span> 18:00, days Monday to Saturday.</p>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<section id="devices">
+<h2><span class="n">10</span>Devices</h2>
+<p class="sub">Projectors over PJLink, serial devices, MIDI, audio outputs, control ports and the phone remote.</p>
+
+<figure>
+  <div class="shot">
+    <img src="img/devices.png" alt="The Devices page with a projector, the control ports, the phone remote address and the integration reference" loading="lazy">
+    <span class="pin" style="left:32.5%;top:22.7%">1</span>
+    <span class="pin" style="left:42.5%;top:28%">2</span>
+    <span class="pin" style="left:40%;top:34.9%">3</span>
+    <span class="pin" style="left:13.8%;top:41.5%">4</span>
+    <span class="pin" style="left:33.8%;top:63.4%">5</span>
+    <span class="pin" style="left:16.3%;top:72.4%">6</span>
+  </div>
+</figure>
+<ol class="keys">
+  <li><b>Add projector</b>, <b>All power on</b>, <b>All power off</b>, <b>Check now</b>.</li>
+  <li><b>Status</b>: power state, lamp hours if the projector reports them, any fault, or why it cannot be reached. The demo projector's address is made up, so it shows offline.</li>
+  <li><b>Commands</b> for one projector. The number next to Switch input is the PJLink input code (31 is usually the first HDMI input; see the projector's manual).</li>
+  <li><b>Control ports</b> and whether each one is listening.</li>
+  <li><b>Phone remote</b> address with the token, ready to copy.</li>
+  <li><b>Integration reference</b>: the commands other systems can send.</li>
+</ol>
+<p>PJLink is the network control standard on most installation projectors (Epson, Panasonic, NEC, Sony, Christie and others). Turn it on in the projector's network menu, give the projector a fixed IP, and enter the password if it has one. Vitrine uses port 4352 and checks status every 30 seconds if <span class="ui">Check status every 30 s</span> is ticked.</p>
+
+<h3>Serial devices</h3>
+<figure>
+  <div class="shot">
+    <img src="img/devices-serial.png" alt="A serial device card with port and baud, and the MIDI card listing inputs and outputs" loading="lazy">
+  </div>
+</figure>
+<p>Use serial for Arduino buttons, PIR motion sensors and relay boards on USB. <b>Add serial device</b> picks the first free port; choose another from the list or type its path, and set the baud rate to match the device's sketch (9600 is the Arduino default). <b>Rescan ports</b> looks again after you plug something in. The dot turns grey with the reason when the port is missing; Vitrine keeps trying to reopen it and raises a Health alert while it is down.</p>
+<p>A minimal Arduino button box sends one line per press, for example <code>Serial.println("btn1");</code>. A trigger with the Serial line event and text <code>btn1</code> then runs. To drive a relay, have the sketch read lines and add a <span class="ui">Send serial</span> action with <code>ON\n</code>.</p>
+
+<h3>MIDI</h3>
+<p>Every MIDI input on the machine is heard, and the card lists what is connected. Vitrine also makes two virtual ports, "Vitrine in" and "Vitrine out", so other software on this Mac (a lighting desk app, Ableton, QLab) can talk to it without cables. Ports are rescanned every 3 seconds, so a controller plugged in during a show starts working on its own.</p>
+
+<h3>Audio outputs</h3>
+<p>Lists every sound output on the machine with its channel count and sample rate, which one is the system default, and which are playing now. Pick the device per layer on the Content page. Stereo and mono files play on the first two channels of a device; a mono device gets both sides mixed. A surround file (5.1, 7.1 and so on) keeps every channel in file order when the device has at least that many outputs, and is mixed down to stereo when it does not. Sound stays at the file's resolution: a 24-bit, 96 kHz file reaches the device at 96 kHz with no conversion, if the device supports that rate. Vitrine sets the device to the highest rate among the clips routed to it, and other apps using the same device follow that rate. When a higher-rate clip starts, the device reopens once, which can cause a short gap. Devices are rescanned every 3 seconds, and a device that comes back is used again on its own. On a Mac, an Aggregate or Multi-Output Device made in Audio MIDI Setup shows here too, so give each one a distinct name.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="settings">
+<h2><span class="n">11</span>Settings</h2>
+<p class="sub">Show file, ports, access, start at login, variables, alerts.</p>
+
+<figure>
+  <div class="shot">
+    <img src="img/settings.png" alt="The Settings page with show file, control ports, operation and variables" loading="lazy">
+    <span class="pin" style="left:41.3%;top:26.5%">1</span>
+    <span class="pin" style="left:12%;top:38.6%">2</span>
+    <span class="pin" style="left:33.5%;top:59.2%">3</span>
+    <span class="pin" style="left:11%;top:68.3%">4</span>
+    <span class="pin" style="left:24%;top:73.2%">5</span>
+    <span class="pin" style="left:18.8%;top:83.7%">6</span>
+  </div>
+</figure>
+<ol class="keys">
+  <li><b>Show file</b>: Save, Save as, Open, New show, Undo and Redo. The path of the open show is above the card.</li>
+  <li><b>Control ports</b>. Each one can be turned off or moved. Art-Net input (port 6454) is off until you tick it.</li>
+  <li><b>HTTP token</b>. With a token set, the remote and every <code>/api</code> call need it. <span class="ui">Generate</span> makes a new random one; anything already using the old one stops working.</li>
+  <li><b>Edit PIN</b>. Empty means no lock. With a PIN, only the Show and Log pages work until someone enters it. The lock button in the top bar locks again.</li>
+  <li><b>Keep displays and the computer awake</b>, <b>Restart daily at</b>, and <b>Start Vitrine at login and restart it if it stops</b> (macOS). See <a href="#recovery">Recovery</a>.</li>
+  <li><b>Variables</b> for triggers: a name, a start value, and <span class="ui">remember</span> to keep the value across restarts. The <em>now</em> column shows the live value.</li>
+</ol>
+
+<h3>Saving, backups and where files live</h3>
+<p>Vitrine saves a few seconds after your last change, so there is no unsaved state to lose; <kbd>Cmd</kbd> <kbd>S</kbd> saves at once. Every save is written whole or not at all, and a copy goes into a <code>backups</code> folder next to the show file. The newest 30 copies are kept. If the show file ever cannot be read, Vitrine opens the newest good backup and says so in the log. To go back to an earlier version by hand, copy a backup over the show file while Vitrine is closed.</p>
+<p>Everything else Vitrine keeps is in <code>~/Library/Application Support/Vitrine</code>: the shows and their backups, <code>config.json</code> (the cluster role, this computer's last open show), <code>playhead.json</code> (what was playing, for the restart), and <code>logs</code>. To copy a setup to another computer, copy the show's folder with its media (paths inside it are relative).</p>
+
+<h3>Alerts</h3>
+<p>Below Variables, the <span class="ui">Alerts</span> card sends a message to a webhook, an email address, or both when something goes wrong and nobody is watching. A fault has to last 15 seconds before it alerts, so a quick blip stays quiet. Each fault alerts once, and a second message says <em>Resolved</em> when it clears. A fault that keeps coming back alerts at most once every 10 minutes.</p>
+<p>What counts as a fault: an output without its display, a projector that stops answering or reports a lamp, fan or temperature error, a projector lamp past the <span class="ui">Lamp hours</span> limit (0 turns this off), missing or broken media, render errors, a control port that cannot open, and a cluster follower or leader that drops out. Recovery from a GPU reset and a restart after a crash are reported as they happen.</p>
+<ul>
+  <li><b>Webhook URL</b>: a Slack or Discord incoming webhook, a Teams workflow, or any address that accepts a JSON POST. The body carries <code>text</code>, <code>content</code>, <code>title</code>, <code>message</code>, <code>host</code> and <code>time</code>.</li>
+  <li><b>Email</b>: an SMTP server such as <code>smtps://smtp.gmail.com:465</code> (or <code>smtp://host:587</code>, which must offer STARTTLS), with its user and password. For Gmail use an app password, not the account password. <span class="ui">To</span> takes several addresses separated by commas.</li>
+</ul>
+<p><span class="ui">Send test alert</span> works even while alerts are switched off, and the line next to it shows whether the webhook and the email went through. Every alert also goes to the Log.</p>
+
+<h3 id="cluster">Several computers</h3>
+<p>One computer can drive as many projectors as its graphics card has outputs. For more, run Vitrine on several Macs on the same network and join them in the <span class="ui">Cluster</span> card. One Mac is the <b>leader</b>: you build and run the show there. The others are <b>followers</b>: they copy the leader's show, play the same cue at the same moment and drive their own projectors.</p>
+<ul>
+  <li><b>Role</b>: <span class="ui">Alone</span>, <span class="ui">Leader</span> or <span class="ui">Follower</span>. <span class="ui">Apply</span> saves it on this computer (it is not part of the show file).</li>
+  <li><b>Machine name</b>: how this computer is named in the output <span class="ui">Machine</span> field, for example <code>right-mac</code>.</li>
+  <li><b>Leader address</b> (followers only): the leader's IP address, for example <code>192.168.1.20</code>.</li>
+  <li><b>Port</b>: 7010 by default, UDP for the clock and playback, TCP on the same number for sending the show. Use the same port on every computer and allow it through any firewall.</li>
+</ul>
+<p>The leader's card lists each follower with its round trip time and whether it has the current show. Followers measure their clock against the leader several times a second and keep the quickest measurement, which is the one least delayed by network traffic. Use wired Ethernet for the show; Wi-Fi works for building it. A follower's top bar shows <span class="ui">FOLLOWER</span>. Its cues, triggers and network commands are ignored: control the show from the leader. When you change the show on the leader, every follower picks up the change within a few seconds, and changes made on a follower are replaced.</p>
+<p>Media is not copied. Put the show's media at the same path on every computer. If the leader stops, followers keep playing the current cue and the Health card says the leader is not heard; when it comes back they follow it again. A follower that drops out shows on the leader's Health card and counts as a fault for alerts.</p>
+
+<div class="note warn"><svg width="22" height="22" style="color:var(--ink)"><use href="#i-warn"/></svg>
+<div><p>Set a token before the show machine goes on a public or shared network. Without one, anyone on the network can open the remote and run cues.</p></div></div>
+</section>
+
+<!-- ============================================================ -->
+<section id="log">
+<h2><span class="n">12</span>Log and health</h2>
+<p class="sub">What happened, and when.</p>
+
+<figure>
+  <div class="shot">
+    <img src="img/log.png" alt="The Log page with recent entries" loading="lazy">
+    <span class="pin" style="left:20.8%;top:22.8%">1</span>
+    <span class="pin" style="left:48.4%;top:62.6%">2</span>
+  </div>
+</figure>
+<ol class="keys">
+  <li><b>Filter</b>: All, Warnings and errors, or Errors.</li>
+  <li><b>Warnings</b> stand out in bold. Here the made-up projector address cannot be reached.</li>
+</ol>
+<p>The page shows the last 300 entries. The full log is on disk, one file per day, in <code>~/Library/Application Support/Vitrine/logs/</code>. Every problem that needs attention, such as a missing file, a display that disappeared or a projector that stopped answering, goes to the log and to the Health card on the Show page.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="remote">
+<h2><span class="n">13</span>Remote and HTTP API</h2>
+<p class="sub">A phone or tablet as the remote, and control from other systems.</p>
+
+<h3>Phone remote</h3>
+<p>Open <code>http://&lt;show-machine&gt;:8080/remote</code> on any phone or tablet on the same network. Devices shows the full address with the token; copy it, or make it a home-screen bookmark. The remote has Go for each cue, Next, Stop and Blackout, and shows what is playing.</p>
+
+<h3>HTTP API</h3>
+<p>All <code>/api</code> calls need the token when one is set, as <code>?token=…</code> or an <code>Authorization: Bearer …</code> header. A successful call answers <code>{"ok":true}</code>.</p>
+<table>
+  <tr><th>Call</th><th>Does</th></tr>
+  <tr><td>/api/status</td><td>Current cue, frame rate, each output's state and any warnings, as JSON.</td></tr>
+  <tr><td>/api/go/&lt;cue&gt;</td><td>Go to a cue by name, number or id.</td></tr>
+  <tr><td>/api/next</td><td>Next cue.</td></tr>
+  <tr><td>/api/stop</td><td>Stop.</td></tr>
+  <tr><td>/api/blackout</td><td>Fade to black.</td></tr>
+  <tr><td>/api/unblackout</td><td>Restore from black.</td></tr>
+  <tr><td>/api/trigger/&lt;name&gt;</td><td>Fire HTTP-call triggers with that name. Add arguments with <code>?args=a,b</code> or as a comma-separated request body.</td></tr>
+  <tr><td>/health</td><td>No token needed. Answers 200 while the render loop runs, 503 if it has stalled.</td></tr>
+</table>
+<pre><code>curl -X POST "http://show-mac.local:8080/api/go/Gallery%20loop?token=YOUR_TOKEN"
+curl -H "Authorization: Bearer YOUR_TOKEN" http://show-mac.local:8080/api/status
+curl http://show-mac.local:8080/health</code></pre>
+
+<h3>Built-in OSC</h3>
+<table>
+  <tr><th>Address</th><th>Does</th></tr>
+  <tr><td>/vitrine/go &lt;cue&gt;</td><td>Go to a cue by name, number or id.</td></tr>
+  <tr><td>/vitrine/next</td><td>Next cue.</td></tr>
+  <tr><td>/vitrine/stop</td><td>Stop.</td></tr>
+  <tr><td>/vitrine/blackout 1|0</td><td>Black out, or restore with 0. No argument means black out.</td></tr>
+  <tr><td>/vitrine/unblackout</td><td>Restore from black.</td></tr>
+</table>
+</section>
+
+<!-- ============================================================ -->
+<section id="recovery">
+<h2><span class="n">14</span>Recovery and safe mode</h2>
+<p class="sub">For a machine that runs on its own, day after day.</p>
+
+<p>An unattended machine needs three things, and all three are needed: the computer powers on by itself after a power cut, it logs in by itself, and Vitrine starts at login and is relaunched if it stops.</p>
+<ol class="steps">
+  <li><b>Start at login</b>Settings, Operation, <span class="ui">Start Vitrine at login and restart it if it stops</span>. Supervision starts at the next login; from then on, after a crash or force-quit, macOS starts Vitrine again within a few seconds. The note under the checkbox says which state it is in. <span class="ui">Quit</span> or a normal shutdown closes it cleanly, and it stays closed until the next login.</li>
+  <li><b>Automatic login</b>System Settings, Users &amp; Groups, Automatically log in as. FileVault blocks this: with FileVault on, the Mac stops at the password screen after a reboot. Check with <code>fdesetup status</code>. Also set the lock screen to never ask for a password and the screen saver to never.</li>
+  <li><b>Power back on</b><code>sudo pmset -a autorestart 1</code>, or on a Mac mini or Mac Studio, "Start up automatically after a power failure" in System Settings, Energy.</li>
+</ol>
+
+<h3>What comes back after a restart</h3>
+<ul>
+  <li>The mapping, warp, blends, masks, colour and cues are in the show file, and saves are atomic, so a crash never leaves a half-written show.</li>
+  <li>The cue that was playing comes back with its clock counting the downtime, and so does a blackout. Looping videos pick up where they would have been, so outputs stay in step. If you pressed Stop before the restart, the startup cue plays instead.</li>
+  <li>If the graphics driver resets, Vitrine rebuilds its GPU state in place without restarting. Display sleep and wake leave the outputs open.</li>
+  <li>If the render loop freezes for 10 seconds, Vitrine exits so it can be relaunched.</li>
+  <li><b>Daily restart</b>. Settings, Operation, <span class="ui">Restart daily at</span> takes a 24 hour time such as <code>04:30</code>. At that time Vitrine saves, quits cleanly and starts again, which clears memory that graphics drivers and decoders leak over weeks of running. Outputs go black for a few seconds, then the cue that was playing resumes. It does not count as a crash, it is skipped in safe mode, and it waits for an open file dialog to close. Pick a time when the space is closed.</li>
+</ul>
+
+<h3>Safe mode</h3>
+<p>If Vitrine stops uncleanly <strong>3 times within 10 minutes</strong>, the next launch starts in safe mode: outputs open as windows, the startup cue does not play, and commands from the network (OSC, UDP, TCP, HTTP, Art-Net) are ignored. <code>/health</code> and <code>/api/status</code> still answer, and the Health card says why. The usual cause is a bad media file or a missing display. Fix it, then quit and open Vitrine again; a clean start resets the count.</p>
+<p>To start in safe mode on purpose (it also starts blacked out):</p>
+<pre><code>/Applications/Vitrine.app/Contents/MacOS/vitrine --safe</code></pre>
+<p>Other start options: <code>--show &lt;file&gt;</code> opens a given show, and <code>--edit</code> skips the edit PIN.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="keys">
+<h2><span class="n">15</span>Keyboard</h2>
+<p class="sub">Shortcuts in the control window.</p>
+<table>
+  <tr><th>Keys</th><th>Does</th></tr>
+  <tr><td><kbd>Cmd</kbd> <kbd>S</kbd></td><td>Save now.</td></tr>
+  <tr><td><kbd>Cmd</kbd> <kbd>Z</kbd></td><td>Undo.</td></tr>
+  <tr><td><kbd>Cmd</kbd> <kbd>Shift</kbd> <kbd>Z</kbd> or <kbd>Cmd</kbd> <kbd>Y</kbd></td><td>Redo.</td></tr>
+  <tr><td>Arrow keys</td><td>Move the selected warp or mask point by 0.1% of the slice.</td></tr>
+  <tr><td><kbd>Shift</kbd> + arrows</td><td>Move it by 1%.</td></tr>
+  <tr><td><kbd>Shift</kbd> + drag</td><td>Move a point at a tenth of the pointer speed.</td></tr>
+  <tr><td><kbd>Esc</kbd></td><td>Deselect the point on Mapping.</td></tr>
+  <tr><td><kbd>Ctrl</kbd> <kbd>Esc</kbd></td><td>Stop.</td></tr>
+  <tr><td><kbd>Ctrl</kbd> <kbd>Space</kbd> (Mac: <kbd>Option</kbd> <kbd>Space</kbd>)</td><td>Next cue.</td></tr>
+  <tr><td><kbd>Alt</kbd> <kbd>Up</kbd> / <kbd>Down</kbd></td><td>On Cues, select the previous or next cue.</td></tr>
+  <tr><td><kbd>Alt</kbd> <kbd>0</kbd> to <kbd>6</kbd></td><td>On Show, pick a test pattern (0 is off).</td></tr>
+  <tr><td>Double-click a number</td><td>Reset it to its default (blend width, gamma, crop, brightness, speed and similar).</td></tr>
+  <tr><td><kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + click, <kbd>Shift</kbd> + click</td><td>On Cues, add a cue to a group, or select a range. Then set one colour or delete the group.</td></tr>
+  <tr><td>Any other key</td><td>Goes to <span class="ui">Key press</span> triggers, from the control window or an output window. Nothing is bound by default, so add a trigger (for example <kbd>space</kbd> to Next cue) if the operator wants one.</td></tr>
+</table>
+</section>
+
+<!-- ============================================================ -->
+<section id="trouble">
+<h2><span class="n">16</span>Troubleshooting</h2>
+<p class="sub">Check the Health card and the log first. Most answers are there.</p>
+
+<h3>A projector shows nothing</h3>
+<ul>
+  <li>Outputs page: is the output enabled, and is it on the right display? Displays matched <em>by position</em> change if cables are swapped; match <em>by name</em> instead.</li>
+  <li>Is <span class="ui">Black</span> on? While blacked out, the top-bar button reads <span class="ui">Restore</span>.</li>
+  <li>Does the cue give that layer media and an opacity above zero?</li>
+  <li>Turn on <span class="ui">Projector colours</span>. If the colour shows, the output works and the problem is in the content or the cue.</li>
+</ul>
+
+<h3>The overlap is brighter or darker than the rest</h3>
+<p>Check that both sides have the same blend width, which should match the real overlap. Then adjust blend gamma with <span class="ui">Blend check</span> on. In a dark scene, set black lift with the <span class="ui">Black</span> pattern.</p>
+
+<h3>A video does not play</h3>
+<p>Content shows whether the file could be read. If a file moved, the media pickers show <span class="ui">missing:</span> and the name, and the log says which file. Keep media inside the show's folder so paths stay relative. Very large files (above 4K, or high-bit-rate ProRes 4444 at 4K and up) may need re-encoding to HEVC or a lighter ProRes flavour.</p>
+
+<h3>Video stutters or shows wrong colours</h3>
+<p>On a Mac, video is handed to the graphics chip without copying. If one particular file stutters or looks wrong, start Vitrine from Terminal with <code>VITRINE_NO_ZERO_COPY=1 /Applications/Vitrine.app/Contents/MacOS/vitrine</code> to use the slower copying path, and tell whoever supports your show which file it was. HDR files on an SDR projector look flatter than on an HDR screen; that is the tone mapping described under Content.</p>
+
+<h3>OSC, UDP or HTTP commands are ignored</h3>
+<ul>
+  <li>Devices, Control ports: is the port listening? Another program may hold it; the log says so.</li>
+  <li>Is Vitrine in safe mode? It ignores network commands then.</li>
+  <li>HTTP returns <code>401 token required</code>: add <code>?token=</code>.</li>
+  <li>The macOS firewall may block incoming connections. Allow Vitrine in System Settings, Network, Firewall.</li>
+  <li>For UDP and TCP, the text must match exactly, including case, unless you use a <code>/regex/i</code> pattern.</li>
+</ul>
+
+<h3>The pages are locked</h3>
+<p>An edit PIN is set. Enter it from the lock screen, or start Vitrine with <code>--edit</code>.</p>
+
+<h3>Vitrine keeps starting in safe mode</h3>
+<p>It crashed three times in ten minutes. Read the log for the cause, fix it, quit and reopen. To clear the count by hand, delete <code>~/Library/Application Support/Vitrine/crashes.json</code>.</p>
+</section>
+
+<footer>Vitrine help. This page is stored with the app and works without a network connection.</footer>
+</div></main>
+</div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var byId = {};
+  links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+  if (!('IntersectionObserver' in window)) {
+    document.querySelectorAll('.shot').forEach(function (s) { s.classList.add('seen'); });
+    return;
+  }
+  var spy = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      links.forEach(function (a) { a.classList.remove('on'); });
+      var a = byId[e.target.id];
+      if (a) a.classList.add('on');
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  document.querySelectorAll('section[id]').forEach(function (s) { spy.observe(s); });
+  var reveal = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('seen'); reveal.unobserve(e.target); }
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('.shot').forEach(function (s) { reveal.observe(s); });
+})();
+</script>
+</body>
+</html>
